@@ -18,7 +18,8 @@ docker-compose -p my_project_name -f docker-compose-dev.yml up -d
 docker-compose -f docker-compose-<target>.yml down
 ```
 
-
+# Using: 
+- On your browser, go to http://localhost:3000/ 
 
 
 
