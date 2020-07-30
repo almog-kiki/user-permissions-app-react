@@ -1,0 +1,14 @@
+FROM node:latest
+
+
+WORKDIR /usr/app
+
+COPY package*.json ./
+
+ENV NODE_ENV development
+
+RUN npm install --production
+
+EXPOSE 5000
+
+CMD npm start

@@ -1,0 +1,55 @@
+version: '3'
+services:
+  client:
+    container_name: clientDev
+    restart: always
+    stdin_open: true
+    tty: true
+    build: 
+      context: './client'
+      dockerfile: Dockerfile.dev
+      args:
+        - NODE_ENV=development
+    volumes:
+      - './client:/app'
+      - '/app/node_modules'
+    links:
+      - server
+    ports:
+      - "3000:3000"
+    networks:
+      - webappnetwork
+
+  server:
+    container_name: serverDev
+    restart: always
+    build: 
+      context: './server'
+      dockerfile: Dockerfile.dev
+    volumes:
+      - ./server/:/usr/app
+      - /usr/app/node_modules
+    depends_on: 
+      - db
+    ports:
+      - "5000:5000"
+    environment:
+      - NODE_ENV=development
+    networks:
+      - webappnetwork
+  
+  db:
+    image: mongo:latest
+    restart: always
+    container_name: db
+    volumes:
+      - ../dumps:/tmp/dev
+    ports:
+      - "27017:27017"
+    networks:
+        - webappnetwork
+
+networks:
+  webappnetwork:
+      driver: bridge
+      
