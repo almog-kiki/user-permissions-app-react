@@ -26,14 +26,24 @@ export default class UsersTable extends Component {
         };
     }  
 
+    isCurrentUser = (user) =>{
+
+        const { currentUser } = this.props;
+        debugger
+        if(currentUser._id === user._id){
+            return true;
+        }
+        return false;
+    }
+
     handleOnSelect = (row, isSelect) => {
         if (isSelect) {
-            if(!Utils.isAdministrator(row.role.id)){
-                this.setState(() => ({
-                  selected: [...this.state.selected, row._id]
-                }));
+            if(this.isCurrentUser(row)){
+                return false;
             }else{
-                return false
+                this.setState(() => ({
+                    selected: [...this.state.selected, row._id]
+                  }));
             }
         } else {
           this.setState(() => ({
@@ -44,8 +54,8 @@ export default class UsersTable extends Component {
     
     handleOnSelectAll = (isSelect, rows) => {
         const usersWithoutAdmins = rows.filter(user => {
-            if(!Utils.isAdministrator(user.role.id)){return user;}
-            return undefined;
+            if(this.isCurrentUser(user)){ return undefined; }
+            return user;
         })
         const ids = usersWithoutAdmins.map(r => r._id);
         if (isSelect) {
@@ -177,7 +187,8 @@ export default class UsersTable extends Component {
 
     drawTable(){
         const { tableData } = this.state;
-        const { permission } = this.props;
+        const { currentUser } = this.props;
+        const permission = currentUser.role.id;
         const isAdministrator = Utils.isAdministrator(permission);
         return (
             <Fragment>
@@ -227,7 +238,8 @@ export default class UsersTable extends Component {
     }
 
     render(){
-        const { permission } = this.props;
+        const { currentUser } = this.props;
+        const permission = currentUser.role.id;
         const { isLoading } = this.state;
         const isNotAuthrizedUser = Utils.isNotAuthrizedUser(permission);
         return(

@@ -47,7 +47,7 @@ const Home = (props) => {
             </div>
           </div>
           { globalState.state.roles && 
-            <UsersTable permission={globalState.state.user.role.id} roles={globalState.state.roles}></UsersTable>
+            <UsersTable currentUser={globalState.state.user} roles={globalState.state.roles}></UsersTable>
           }
         </Fragment>
       }
