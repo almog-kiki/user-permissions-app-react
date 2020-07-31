@@ -21,5 +21,4 @@ docker-compose -f docker-compose-<target>.yml down
 # Using: 
 - On your browser, go to http://localhost:3000/ 
 
-# Ref
-https://github.com/Joao-Henrique/Docker_Medium_Tutorial/blob/master/docker-compose.yml
+
